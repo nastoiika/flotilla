@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Добавить выход катера</h2>
+
+<form method="POST" class="card p-4 shadow-sm">
+
+    <div class="mb-3">
+        <label class="form-label">Катер</label>
+        <select name="boat_id" class="form-select" required>
+            <option value="">Выберите катер</option>
+            {% for boat in boats %}
+                <option value="{{ boat.id }}">{{ boat.name }} ({{ boat.boat_type }})</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Дата выхода</label>
+        <input type="date" name="departure_date" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Дата возвращения</label>
+        <input type="date" name="return_date" class="form-control">
+    </div>
+
+    <hr>
+    <h5>Команда</h5>
+    <div id="crew-list">
+        <div class="row mb-2">
+            <div class="col">
+                <input type="text" name="crew_name" class="form-control" placeholder="Имя">
+            </div>
+            <div class="col">
+                <input type="text" name="crew_position" class="form-control" placeholder="Должность">
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-secondary mb-3" onclick="addCrew()">Добавить члена команды</button>
+
+    <button class="btn btn-success">Сохранить рейс</button>
+</form>
+
+<script>
+function addCrew() {
+    const crewList = document.getElementById("crew-list");
+    const row = document.createElement("div");
+    row.className = "row mb-2";
+    row.innerHTML = `
+        <div class="col">
+            <input type="text" name="crew_name" class="form-control" placeholder="Имя">
+        </div>
+        <div class="col">
+            <input type="text" name="crew_position" class="form-control" placeholder="Должность">
+        </div>
+    `;
+    crewList.appendChild(row);
+}
+</script>
+{% endblock %}

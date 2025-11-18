@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Отчёт по улову</h2>
+
+<form method="POST" class="card p-4 mb-4 shadow-sm">
+    <div class="mb-3">
+        <label class="form-label">Сорт рыбы</label>
+        <select name="fish_type_id" class="form-select" required>
+            <option value="">Выберите сорт</option>
+            {% for fish in fish_types %}
+                <option value="{{ fish.id }}"
+                {% if selected_fish_type_id == fish.id %}selected{% endif %}>
+                    {{ fish.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Банка</label>
+        <select name="bank_name" class="form-select" required>
+            <option value="">Выберите банку</option>
+            {% for bank in banks %}
+                <option value="{{ bank[0] }}"
+                {% if selected_bank_name == bank[0] %}selected{% endif %}>
+                    {{ bank[0] }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button class="btn btn-success">Показать рейсы</button>
+</form>
+
+{% if report %}
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Катер</th>
+            <th>Дата выхода</th>
+            <th>Дата возвращения</th>
+            <th>Вес улова (кг)</th>
+            <th>Дата прихода на банку</th>
+            <th>Дата отплытия с банки</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for r in report %}
+        <tr>
+            <td>{{ r.trip.boat.name }}</td>
+            <td>{{ r.trip.departure_date }}</td>
+            <td>{{ r.trip.return_date or "не указано" }}</td>
+            <td>{{ r.weight }}</td>
+            <td>{{ r.arrival_date }}</td>
+            <td>{{ r.departure_date }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% elif selected_fish_type_id and selected_bank_name %}
+<p class="text-muted">Нет данных по выбранному сорту и банке.</p>
+{% endif %}
+{% endblock %}

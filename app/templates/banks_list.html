@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Банки</h2>
+
+{% for bank in banks_data %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">{{ bank.bank_name }}</h5>
+
+        {% if bank.boats_above_avg %}
+            <p class="mb-0"><strong>Катера с уловом выше среднего:</strong></p>
+            <ul>
+                {% for boat in bank.boats_above_avg %}
+                    <li>{{ boat }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="mb-0 text-muted">Нет данных о улове выше среднего.</p>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

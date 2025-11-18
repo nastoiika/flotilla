@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-3">Выходы катеров в море</h2>
+
+<a href="{{ url_for('add_trip') }}" class="btn btn-primary mb-3">Добавить рейс</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Катер</th>
+            <th>Дата выхода</th>
+            <th>Дата возвращения</th>
+            <th>Команда</th>
+            <th>Банки</th>
+            <th>Улов</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for trip in trips %}
+        <tr>
+            <td>{{ trip.boat.name }}</td>
+            <td>{{ trip.departure_date }}</td>
+            <td>{{ trip.return_date or "не указано" }}</td>
+            <td>
+                {% if trip.crew %}
+                    <ul class="mb-0">
+                        {% for member in trip.crew %}
+                            <li>{{ member.name }} — {{ member.position }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    Нет данных
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ url_for('add_bank', trip_id=trip.id) }}" class="btn btn-sm btn-success">
+                    Добавить банку
+                </a>
+
+                {% if trip.bank_visits %}
+                    <ul class="mb-0 mt-2">
+                        {% for bank in trip.bank_visits %}
+                            <li>{{ bank.bank_name }} ({{ bank.arrival_date }} — {{ bank.departure_date }})</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </td>
+            <td>
+                {% if trip.bank_visits %}
+                    <ul class="mb-0 mt-2">
+                        {% for bank in trip.bank_visits %}
+                            <li>
+                                {{ bank.bank_name }} ({{ bank.arrival_date }} — {{ bank.departure_date }})
+                                <a href="{{ url_for('add_catch', bank_id=bank.id) }}" class="btn btn-sm btn-success ms-2">
+                                    Добавить улов
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Максимальный улов по сортам рыбы</h2>
+
+<form method="POST" class="card p-4 mb-4 shadow-sm">
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">Дата начала</label>
+            <input type="date" name="start_date" class="form-control" required
+                   value="{{ start_date }}">
+        </div>
+        <div class="col">
+            <label class="form-label">Дата конца</label>
+            <input type="date" name="end_date" class="form-control" required
+                   value="{{ end_date }}">
+        </div>
+    </div>
+    <button class="btn btn-success">Показать отчёт</button>
+</form>
+
+{% if result %}
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Сорт рыбы</th>
+            <th>Максимальный улов (кг)</th>
+            <th>Катера</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for r in result %}
+        <tr>
+            <td>{{ r.fish_name }}</td>
+            <td>{{ r.max_weight or '-' }}</td>
+            <td>
+                {% if r.boats %}
+                    <ul class="mb-0">
+                        {% for boat in r.boats %}
+                            <li>{{ boat }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    Нет данных
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

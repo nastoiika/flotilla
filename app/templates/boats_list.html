@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-3">Катера</h2>
+
+<a href="{{ url_for('add_boat') }}" class="btn btn-primary mb-3">Добавить катер</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Название</th>
+            <th>Тип</th>
+            <th>Водоизмещение</th>
+            <th>Дата постройки</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for boat in boats %}
+        <tr>
+            <td>{{ boat.name }}</td>
+            <td>{{ boat.boat_type }}</td>
+            <td>{{ boat.displacement }}</td>
+            <td>{{ boat.build_date }}</td>
+            <td>
+                <a href="{{ url_for('edit_boat', boat_id=boat.id) }}" class="btn btn-sm btn-warning">
+                    Редактировать
+                </a>
+            </td>
+        </tr>
+
+        <!-- БЛОК СО СПИСКОМ РЕЙСОВ -->
+        {% if boat.trips %}
+        <tr>
+            <td colspan="5">
+                <strong>Выходы в море:</strong>
+                <ul class="mt-2">
+                    {% for trip in boat.trips %}
+                        <li>
+                            <b>{{ trip.departure_date }}</b>
+                            — возвращение:
+                            {{ trip.return_date if trip.return_date else "не указано" }}
+
+                            {% if trip.catches %}
+                                <br>
+                                <span class="text-success">
+                                    Улов: {{ trip.total_catch }} кг
+                                </span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endif %}
+
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

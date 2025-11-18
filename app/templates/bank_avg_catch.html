@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Средний улов по банкам</h2>
+
+<form method="POST" class="card p-4 mb-4 shadow-sm">
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">Дата начала</label>
+            <input type="date" name="start_date" class="form-control" required
+                   value="{{ start_date }}">
+        </div>
+        <div class="col">
+            <label class="form-label">Дата конца</label>
+            <input type="date" name="end_date" class="form-control" required
+                   value="{{ end_date }}">
+        </div>
+    </div>
+    <button class="btn btn-success">Показать отчёт</button>
+</form>
+
+{% if report %}
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Банка</th>
+            <th>Средний улов (кг)</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for r in report %}
+        <tr>
+            <td>{{ r.bank_name }}</td>
+            <td>{{ r.avg_weight or '-' }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}
