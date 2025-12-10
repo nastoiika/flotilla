@@ -4,7 +4,7 @@ from datetime import datetime
 from flask_migrate import Migrate
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://user:ajsbTt54@localhost:3306/mydb'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://root:wjdk7sdjs@localhost:3306/mydb'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)

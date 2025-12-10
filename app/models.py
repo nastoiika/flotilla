@@ -54,6 +54,12 @@ class FishType(db.Model):
     catches = db.relationship("FishCatch", back_populates="fish_type", cascade="all, delete-orphan")
 
 
+class New_FishType(db.Model):
+    __tablename__ = "fish_types"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+
 class FishCatch(db.Model):
     __tablename__ = "fish_catches"
 
